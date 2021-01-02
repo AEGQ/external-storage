@@ -298,7 +298,7 @@ func main() {
 	if ( leaderElectionEnv != "" ) {
 		leaderElection, err = strconv.ParseBool(leaderElectionEnv)
 		if err != nil {
-			glog.Fatalf("Unable to parse ENABLE_LEADER_ELECTION env var: %v", err)
+			klog.Fatalf("Unable to parse ENABLE_LEADER_ELECTION env var: %v", err)
 		}
 	}
 

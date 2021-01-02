@@ -293,6 +293,15 @@ func main() {
 		klog.Fatalf("Error getting server version: %v", err)
 	}
 
+        leaderElection := true
+	leaderElectionEnv := os.Getenv("ENABLE_LEADER_ELECTION")
+	if ( leaderElectionEnv != "" ) {
+		leaderElection, err = strconv.ParseBool(leaderElectionEnv)
+		if err != nil {
+			glog.Fatalf("Unable to parse ENABLE_LEADER_ELECTION env var: %v", err)
+		}
+	}
+
 	// Create the provisioner: it implements the Provisioner interface expected by
 	// the controller
 	efsProvisioner := NewEFSProvisioner(clientset)
@@ -309,6 +318,7 @@ func main() {
 		provisionerName,
 		efsProvisioner,
 		serverVersion.GitVersion,
+                controller.LeaderElection(leaderElection),
 	)
 
 	pc.Run(wait.NeverStop)

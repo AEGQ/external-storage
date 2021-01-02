@@ -23,6 +23,7 @@ RUN go install ./cmd/efs-provisioner
 
 
 FROM alpine:3.10.2
+ENV ENABLE_LEADER_ELECTION=false
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /go/bin/efs-provisioner /
 ENTRYPOINT ["/efs-provisioner"]
